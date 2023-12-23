@@ -1,4 +1,5 @@
 // Pin definitions
+const int test = A6;
 
 const int lockdownPin = A3;
 const int startButtonPin = A1;      
