@@ -1,4 +1,5 @@
 
+const int startButtonPin = A2;
 
 const int motorForwardPin = 1;
 const int motorBackwardPin = 2;
@@ -7,7 +8,7 @@ const int waterOutPumpPin = 4;
 const int spinningPin = 5;
 const int DoorContactPin = 6; 
 
-bool testingCompleted = false;
+int startButtonState = 0;
 
 void setup() {
  pinMode(motorForwardPin, OUTPUT);
@@ -24,42 +25,46 @@ void setup() {
   digitalWrite(waterOutPumpPin, 1);
   digitalWrite(DoorContactPin, 1);
   digitalWrite(spinningPin, 1);
+
+  pinMode(startButtonPin, INPUT);
+
 }
 
 void loop() {
- // Check if testing has been completed
- if (!testingCompleted) {
 
-    // Call each test procedure in sequence
+startButtonState = digitalRead(startButtonPin);
+
+ if (startButtonState == 1) {
+
  
       digitalWrite(DoorContactPin, 0);
     Washing();
     vidange();
+    Washing();
+    vidange();
+
     rinsing();
+    vidange();
+
+    rinsing();
+    vidange();
+
     essorage();
-    // Set the flag to indicate testing is completed
-           delay(60000); // 1min
+          
 
-      digitalWrite(DoorContactPin, 1);
-
-    testingCompleted = true;
 
  }
-
- // Optional: Add additional code here if needed
-
- // Exit the loop and stop the program
  return;
 }
 
 
 void Washing() {
    digitalWrite(waterPumpPin, 0); 
-/*
-    
+
+     digitalWrite(waterOutPumpPin, 1);
 
 
- const int cycleCount = 2; // Number of washing cycles
+ const int cycleCount = 15; // Number of washing cycles
 
   for (int cycle = 0; cycle < cycleCount; cycle++) {
     // Forward
@@ -74,10 +79,10 @@ void Washing() {
     digitalWrite(motorBackwardPin, 1);
     delay(2000);
   }
-*/
-    digitalWrite(waterPumpPin, 1); 
+    digitalWrite(waterPumpPin, 0); 
     delay(2000); // A3ML DELAY BIN PRELAV O VIDABGE     
 
+      digitalWrite(waterOutPumpPin, 0);
 
 
 }
@@ -88,17 +93,7 @@ void vidange() {
  // Assuming a pin has been connected to a relay
 digitalWrite(waterOutPumpPin, 0);
 
- /*   digitalWrite(motorForwardPin, 0); // Start motor forward
-                delay(90000); //1,5 min
-    digitalWrite(motorForwardPin, 1); // Stop motor forward
-   delay(5000);
-      digitalWrite(motorBackwardPin, 0); // Start motor backward
-                delay(90000); //1,5 min
-      digitalWrite(motorBackwardPin, 1); // Stop motor backward
-
-*/
-
- const int cycleCount = 3; // Number of washing cycles
+ const int cycleCount = 1; // Number of washing cycles
 
   for (int cycle = 0; cycle < cycleCount; cycle++) {
     // Forward
@@ -127,9 +122,10 @@ digitalWrite(waterOutPumpPin, 0);
 
 void rinsing() {
   digitalWrite(waterPumpPin, 0); 
+      digitalWrite(waterOutPumpPin, 1);
 
 
-  const int cycleCount = 2; // Number of cycles each cycle is 1 min
+  const int cycleCount = 4; // Number of cycles each cycle is 1 min
 
   for (int cycle = 0; cycle < cycleCount; cycle++) {
     // Forward
@@ -146,22 +142,22 @@ void rinsing() {
   }
 
      
-     
+     digitalWrite(waterOutPumpPin, 0);
+
       digitalWrite(waterPumpPin, 1); 
 delay(2000);
 }
 
 void essorage() {
 
-     digitalWrite(waterOutPumpPin, 0);
+     digitalWrite(waterOutPumpPin, 1);
       digitalWrite(spinningPin, 0);
      
                 delay(420000);// 7 min
 
-      digitalWrite(waterOutPumpPin, 1);
+      digitalWrite(waterOutPumpPin, 0);
       digitalWrite(spinningPin, 1);
+ delay(60000); // 1min
 
-   /*   //FIN
-       delay(60000); // 1min
-       digitalWrite(DoorContactPin, 1);*/
+      digitalWrite(DoorContactPin, 1);
 }
