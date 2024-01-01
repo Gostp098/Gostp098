@@ -61,7 +61,7 @@ startButtonState = digitalRead(startButtonPin);
 void Washing() {
    digitalWrite(waterPumpPin, 0); 
 
-     digitalWrite(waterOutPumpPin, 1);
+     digitalWrite(waterOutPumpPin, 0);
 
 
  const int cycleCount = 15; // Number of washing cycles
@@ -82,7 +82,7 @@ void Washing() {
     digitalWrite(waterPumpPin, 0); 
     delay(2000); // A3ML DELAY BIN PRELAV O VIDABGE     
 
-      digitalWrite(waterOutPumpPin, 0);
+      digitalWrite(waterOutPumpPin, 1);
 
 
 }
@@ -91,7 +91,7 @@ void Washing() {
 
 void vidange() {
  // Assuming a pin has been connected to a relay
-digitalWrite(waterOutPumpPin, 0);
+digitalWrite(waterOutPumpPin, 1);
 
  const int cycleCount = 1; // Number of washing cycles
 
@@ -111,7 +111,7 @@ digitalWrite(waterOutPumpPin, 0);
 
 
 
-      digitalWrite(waterOutPumpPin, 1);
+      digitalWrite(waterOutPumpPin, 0);
 
 
 
@@ -122,7 +122,7 @@ digitalWrite(waterOutPumpPin, 0);
 
 void rinsing() {
   digitalWrite(waterPumpPin, 0); 
-      digitalWrite(waterOutPumpPin, 1);
+     digitalWrite(waterOutPumpPin, 0);
 
 
   const int cycleCount = 4; // Number of cycles each cycle is 1 min
@@ -142,7 +142,7 @@ void rinsing() {
   }
 
      
-     digitalWrite(waterOutPumpPin, 0);
+     digitalWrite(waterOutPumpPin, 1);
 
       digitalWrite(waterPumpPin, 1); 
 delay(2000);
@@ -151,12 +151,17 @@ delay(2000);
 void essorage() {
 
      digitalWrite(waterOutPumpPin, 1);
-      digitalWrite(spinningPin, 0);
      
-                delay(420000);// 7 min
+      digitalWrite(spinningPin, 0);
+      digitalWrite(motorForwardPin, 0);
 
-      digitalWrite(waterOutPumpPin, 0);
-      digitalWrite(spinningPin, 1);
+                delay(420000);// 7 min
+      digitalWrite(motorForwardPin, 1);
+      digitalWrite(spinningPin, 1);  
+      
+      
+    digitalWrite(waterOutPumpPin, 0);
+
  delay(60000); // 1min
 
       digitalWrite(DoorContactPin, 1);
